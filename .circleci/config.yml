@@ -10,3 +10,4 @@ jobs:
       - run: flutter doctor
       - run: flutter test test/widget_test.dart
       - run: flutter -v build apk
+      - run: flutter -v build ios
