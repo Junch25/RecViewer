@@ -16,6 +16,8 @@ class  _RecViewState extends State<RecView>{
     return Scaffold(
       appBar: AppBar(
         title: Text('RecViewer'),
+        backgroundColor: Colors.blueAccent,
+        centerTitle: true,
       ),
       body: WebView(
         initialUrl: 'http://192.168.2.10/',
