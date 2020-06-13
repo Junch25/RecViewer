@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -14,8 +16,13 @@ class  _RecViewState extends State<RecView>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(35.0),
+      child: AppBar(
         title: Text('RecViewer'),
+        backgroundColor: Color.fromARGB(255, 64, 81, 181),
+        centerTitle: true,
+        )
       ),
       body: WebView(
         initialUrl: 'http://192.168.2.10/',
