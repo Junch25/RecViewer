@@ -13,9 +13,9 @@ jobs:
       - checkout
       - restore_cache:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
-      #      - run:
-      #         name: Chmod パーミッション # Gradlew Dependencies のパーミッションが失敗する場合は、これを使用します
-      #         command: sudo chmod +x ./gradlew
+          - run:
+              name: Chmod パーミッション # Gradlew Dependencies のパーミッションが失敗する場合は、これを使用します
+              command: sudo chmod +x ./gradlew
       - run:
           name: 依存関係をダウンロード
           command: ./gradlew androidDependencies
@@ -31,8 +31,8 @@ jobs:
           destination: reports
       - store_test_results: # テストサマリー (https://circleci.com/docs/ja/2.0/collect-test-data/) に表示するため
           path: app/build/test-results
-      - run: flutter pub get
-      - run: flutter doctor
-      - run: flutter devices
-      - run: flutter drive --target=./test_driver/app.dart
-      - run: flutter -v build apk
+#      - run: flutter pub get
+#      - run: flutter doctor
+#      - run: flutter devices
+#      - run: flutter drive --target=./test_driver/app.dart
+#      - run: flutter -v build apk
