@@ -32,8 +32,8 @@ jobs:
             circle-android wait-for-boot
             sleep 30
             adb shell input keyevent 82
-#      - run: flutter pub get
-#      - run: flutter doctor
-#      - run: flutter devices
-#      - run: flutter drive --target=./test_driver/app.dart
-#      - run: flutter -v build apk
+      - run: flutter pub get
+      - run: flutter doctor
+      - run: flutter devices
+      - run: flutter drive --target=./test_driver/app.dart
+      - run: flutter -v build apk
