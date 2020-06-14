@@ -12,26 +12,25 @@ jobs:
       - checkout
       - restore_cache:
             key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
-          - save_cache:
-#      - run:
-#          name: Download Dependencies
-#          command: ./gradlew androidDependencies
-#      - run:
-#          name: Setup emulator
-#          command: sdkmanager "system-images;android-16;default;armeabi-v7a" && echo "no" | avdmanager create avd -n test -k "system-images;android-16;default;armeabi-v7a"
-#      - run:
-#          name: Accept licenses
-#          command: yes | sdkmanager --licenses || true
-#      - run:
-#          name: Launch emulator
-#          command: export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib && emulator64-arm -avd test -noaudio -no-boot-anim -no-window -accel on
-#          background: true
-#      - run:
-#          name: Wait emulator
-#          command: |
-#            circle-android wait-for-boot
-#            sleep 30
-#            adb shell input keyevent 82
+      - run:
+          name: Download Dependencies
+          command: ./gradlew androidDependencies
+      - run:
+          name: Setup emulator
+          command: sdkmanager "system-images;android-16;default;armeabi-v7a" && echo "no" | avdmanager create avd -n test -k "system-images;android-16;default;armeabi-v7a"
+      - run:
+          name: Accept licenses
+          command: yes | sdkmanager --licenses || true
+      - run:
+          name: Launch emulator
+          command: export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib && emulator64-arm -avd test -noaudio -no-boot-anim -no-window -accel on
+          background: true
+      - run:
+          name: Wait emulator
+          command: |
+            circle-android wait-for-boot
+            sleep 30
+            adb shell input keyevent 82
 #      - run: flutter pub get
 #      - run: flutter doctor
 #      - run: flutter devices
