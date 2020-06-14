@@ -3,7 +3,7 @@ orbs:
 version: 2
 jobs:
   build:
-    working_directory: ~/RecViewer/android
+    working_directory: ~/RecViewer/android/
     docker:
       - image: cirrusci/flutter
       - image: circleci/android:api-26-alpha
@@ -15,7 +15,7 @@ jobs:
          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
          name: Download Dependencies
-         command: ./gradlew androidDependencies
+         command: .~/RecViewer/android/gradlew androidDependencies
       - save_cache:
           paths:
            - ~/RecViewer/android/.gradle
