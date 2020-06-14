@@ -11,9 +11,6 @@ jobs:
       JVM_OPTS: -Xmx3200m
     steps:
         - checkout
-        - restore_cache:
-              key: jars-{{ checksum "build.gradle" }}-{{ checksum  "android/build.gradle" }}
-
         - run:
             name: update android sdk
             command: |
@@ -21,19 +18,13 @@ jobs:
               echo y | android update sdk --no-ui --all --filter build-tools-26.0.0
         - run:
             name: gradle dependencies
-            command: ./gradlew androidDependencies
-
-        - save_cache:
-            paths: ~/.gradle
-            key: jars-{{ checksum "build.gradle" }}-{{ checksum  "android/build.gradle" }}
+            command: ./android/gradlew androidDependencies
         - run:
             name: Show list of system-images
             command: sdkmanager --list --verbose | grep system-images
-
         - run:
             name: Setup Emulator
             command: sdkmanager "system-images;android-24;default;armeabi-v7a" && echo "no" | avdmanager create avd -n test -k "system-images;android-24;default;armeabi-v7a"
-
         - run:
             name: Launch Emulator
             command: export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib && emulator64-arm -avd test -noaudio -no-boot-anim -no-window -accel on
