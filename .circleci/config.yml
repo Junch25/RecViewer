@@ -15,6 +15,7 @@ jobs:
       - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
+      - save_cache:
       - run:
           name: Setup emulator
           command: sdkmanager "system-images;android-16;default;armeabi-v7a" && echo "no" | avdmanager create avd -n test -k "system-images;android-16;default;armeabi-v7a"
