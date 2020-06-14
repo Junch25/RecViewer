@@ -25,6 +25,7 @@ class  _RecViewState extends State<RecView>{
         )
       ),
       body: WebView(
+        key: Key('OK'),
         initialUrl: 'http://192.168.2.10/',
         javascriptMode: JavascriptMode.unrestricted,
         onWebViewCreated: (WebViewController controller) {
