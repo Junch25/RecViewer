@@ -5,7 +5,7 @@ jobs:
   build:
     working_directory: ~/code
     docker:
-      - image: circleci/android:api-28-alpha
+      - image: circleci/android:api-26-alpha
       - image: cirrusci/flutter
     environment:
       JVM_OPTS: -Xmx3200m
