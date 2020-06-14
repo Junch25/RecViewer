@@ -1,13 +1,13 @@
 orbs:
   slack: circleci/slack@3.4.2
-version: 2
+version: 2.1
 jobs:
   build:
     docker:
       - image: circleci/android:api-26-alpha
       - image: cirrusci/flutter
     environment:
-      JVM_OPTS: -Xmx3200m
+        JVM_OPTS: -Xmx3200m
     steps:
       - checkout
       - restore_cache:
@@ -19,9 +19,6 @@ jobs:
           name: Download Dependencies
           command: ./gradlew androidDependencies
       - save_cache:
-#        - run:
-#            name: Accept licenses
-#            command: yes | sdkmanager --licenses || true
       - run:
           name: Setup emulator
           command: sdkmanager "system-images;android-16;default;armeabi-v7a" && echo "no" | avdmanager create avd -n test -k "system-images;android-16;default;armeabi-v7a"
