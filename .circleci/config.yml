@@ -18,7 +18,7 @@ jobs:
               echo y | android update sdk --no-ui --all --filter build-tools-26.0.0
         - run:
             name: gradle dependencies
-            command: ./android/gradlew androidDependencies
+            command: ./gradlew androidDependencies
         - run:
             name: Show list of system-images
             command: sdkmanager --list --verbose | grep system-images
@@ -29,7 +29,6 @@ jobs:
             name: Launch Emulator
             command: export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib && emulator64-arm -avd test -noaudio -no-boot-anim -no-window -accel on
             background: true
-
         - run:
             name: Wait emulator
             command: |
