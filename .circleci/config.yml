@@ -8,5 +8,5 @@ jobs:
     steps:
       - checkout
       - run: flutter doctor
-      - run: flutter drive --target=test_driver/app.dart
+      - run: flutter drive --target=./test_driver/app.dart
       - run: flutter -v build apk
