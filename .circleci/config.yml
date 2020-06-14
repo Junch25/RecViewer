@@ -1,13 +1,13 @@
 orbs:
   slack: circleci/slack@3.4.2
-version: 2.1
+version: 2
 jobs:
   build:
     docker:
       - image: circleci/android:api-26-alpha
       - image: cirrusci/flutter
-    environment:
-      JVM_OPTS: -Xmx3200m
+      environment:
+        JVM_OPTS: -Xmx3200m
     steps:
       - checkout
       - restore_cache:
