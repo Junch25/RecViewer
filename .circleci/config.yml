@@ -36,10 +36,10 @@ jobs:
             cp /home/cirrus/project/build/app/outputs/apk/release/app-release.apk /tmp
       - flutter_save_cache
       # /tmpのapp.apkを一時的に保存して、次のjobにわたす
-      - persist_to_workspace:
-          root: /tmp
-          paths:
-            - app.apk
+#      - persist_to_workspace:
+#          root: /tmp
+#          paths:
+#            - app.apk
 #jobs:
 #  build:
 #    docker:
