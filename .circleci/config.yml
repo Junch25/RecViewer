@@ -1,43 +1,60 @@
 orbs:
   slack: circleci/slack@3.4.2
-version: 2
+version: 2.1
+commands:
+  flutter_restore_cache:
+    steps:
+      - restore_cache:
+          keys: flutter-cache-{{ .Branch }}
+  flutter_save_cache:
+    parameters:
+      root_path:
+        type: string
+        default: "app"
+    steps:
+      - save_cache:
+          key: flutter-cache-{{ .Branch }}
+          paths:
+            - "<< parameters.root_path >>/android/.gradle"
+            - "<< parameters.root_path >>/android/gradle"
+            - "<< parameters.root_path >>/build"
+            - /opt/android-sdk-linux/
 jobs:
   build:
-    working_directory: ~/project/RecViewer/android
     docker:
       - image: cirrusci/flutter
-      - image: circleci/android:api-26-alpha
-    environment:
-          JVM_OPTS: -Xmx3200m
     steps:
       - checkout
-      - restore_cache:
-         key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+      - run: flutter pub get
+      - run: flutter doctor
+      - flutter_restore_cache
+      # buildしたapkを/tmpにコピー
       - run:
-         name: Download Dependencies
-         command: cd RecViewer/android;./gradlew androidDependencies
-      - save_cache:
+          working_directory: app
+          command: |
+            flutter -v build apk
+            cp /home/cirrus/project/build/app/outputs/apk/release/app-release.apk /tmp
+      - flutter_save_cache
+      # /tmpのapp.apkを一時的に保存して、次のjobにわたす
+      - persist_to_workspace:
+          root: /tmp
           paths:
-           - .gradle
-          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
-      - run:
-         name: Setup emulator
-         command: sdkmanager "system-images;android-16;default;armeabi-v7a" && echo "no" | avdmanager create avd -n test -k "system-images;android-16;default;armeabi-v7a"
-      - run:
-         name: Accept licenses
-         command: yes | sdkmanager --licenses || true
-      - run:
-         name: Launch emulator
-         command: export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib && emulator64-arm -avd test -noaudio -no-boot-anim -no-window -accel on
-         background: true
-      - run:
-         name: Wait emulator
-         command: |
-           circle-android wait-for-boot
-           sleep 30
-           adb shell input keyevent 82
+            - app.apk
+#jobs:
+#  build:
+#    docker:
+#      - image: cirrusci/flutter
+#    steps:
+#      - checkout
 #      - run: flutter pub get
 #      - run: flutter doctor
-#      - run: flutter devices
-#      - run: flutter drive --target=./test_driver/app.dart
-#      - run: flutter -v build apk
+#      - run: flutter -v build ios
+
+workflows:
+  version: 2
+  flutter:
+    jobs:
+      - build:
+          filters:
+            tags:
+              only: /.*/
